@@ -91,7 +91,7 @@ public class UserBookService {
         userBookRepository.save(userBook);
     }
 
-    public List<UserBook> getUserBooks(Long userId, BookStatus status) {
+    public List<UserBook> getUserBooksByStatus(Long userId, BookStatus status) {
         return userBookRepository.findAllByUserIdAndStatus(userId, status);
     }
 

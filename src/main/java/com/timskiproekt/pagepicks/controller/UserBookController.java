@@ -39,8 +39,8 @@ public class UserBookController {
     }
 
     @GetMapping("/user-books")
-    public List<UserBook> getUserBooks(@RequestParam Long userId, @RequestParam BookStatus status) {
-        return userBookService.getUserBooks(userId, status);
+    public List<UserBook> getUserBooksByStatus(@RequestParam Long userId, @RequestParam BookStatus status) {
+        return userBookService.getUserBooksByStatus(userId, status);
     }
 
     @DeleteMapping("/remove-from-list")
