@@ -1,7 +1,6 @@
 package com.timskiproekt.pagepicks.model;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.userdetails.User;
 
 @Entity
 @Table(name = "user_book")
