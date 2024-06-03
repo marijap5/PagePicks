@@ -23,9 +23,16 @@ public class UserBookService {
     }
 
     public UserBook addToReadList(Long userId, String bookISBN) {
-        if (userBookRepository.existsByUserIdAndBookISBN(userId, bookISBN)) {
-            throw new IllegalArgumentException("This book is already in the reading list");
+        UserBook existingUserBook = userBookRepository.findByUserIdAndBookISBN(userId, bookISBN)
+                .orElse(null);
+        if (existingUserBook != null) {
+            if(existingUserBook.getStatus().equals(BookStatus.TO_READ)) {
+                throw new IllegalArgumentException("You have already added this book to your reading list.");
+            } else {
+                userBookRepository.delete(existingUserBook);
+            }
         }
+
         UserBook userBook = new UserBook();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
@@ -36,16 +43,15 @@ public class UserBookService {
         return userBookRepository.save(userBook);
     }
 
-    public UserBook removeFromReadList(Long userId, String bookISBN) {
-        UserBook userBook = userBookRepository.findByUserIdAndBookISBN(userId, bookISBN)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found."));
-        userBookRepository.delete(userBook);
-        return userBook;
-    }
-
     public UserBook addToAlreadyRead(Long userId, String bookISBN) {
-        if (userBookRepository.existsByUserIdAndBookISBN(userId, bookISBN)) {
-            throw new IllegalArgumentException("This book is already read.");
+        UserBook existingUserBook = userBookRepository.findByUserIdAndBookISBN(userId, bookISBN)
+                .orElse(null);
+        if (existingUserBook != null) {
+            if(existingUserBook.getStatus().equals(BookStatus.READ)) {
+                throw new IllegalArgumentException("You have already added this book to your already read list.");
+            } else {
+                userBookRepository.delete(existingUserBook);
+            }
         }
         UserBook userBook = new UserBook();
         User user = userRepository.findById(userId)
@@ -57,16 +63,15 @@ public class UserBookService {
         return userBookRepository.save(userBook);
     }
 
-    public UserBook removeFromAlreadyRead(Long userId, String bookISBN) {
-        UserBook userBook = userBookRepository.findByUserIdAndBookISBN(userId, bookISBN)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found."));
-        userBookRepository.delete(userBook);
-        return userBook;
-    }
-
     public UserBook addToInProgress(Long userId, String bookISBN) {
-        if (userBookRepository.existsByUserIdAndBookISBN(userId, bookISBN)) {
-            throw new IllegalArgumentException("This book is already in progress.");
+        UserBook existingUserBook = userBookRepository.findByUserIdAndBookISBN(userId, bookISBN)
+                .orElse(null);
+        if (existingUserBook != null) {
+            if(existingUserBook.getStatus().equals(BookStatus.READING)) {
+                throw new IllegalArgumentException("You have already added this book to your in progress list.");
+            } else {
+                userBookRepository.delete(existingUserBook);
+            }
         }
         UserBook userBook = new UserBook();
         User user = userRepository.findById(userId)
@@ -76,13 +81,6 @@ public class UserBookService {
         userBook.setStatus(BookStatus.READING);
 
         return userBookRepository.save(userBook);
-    }
-
-    public UserBook removeFromInProgress(Long userId, String bookISBN) {
-        UserBook userBook = userBookRepository.findByUserIdAndBookISBN(userId, bookISBN)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found."));
-        userBookRepository.delete(userBook);
-        return userBook;
     }
 
     public void updateStatus(Long userBookId, BookStatus status) {
@@ -95,6 +93,13 @@ public class UserBookService {
 
     public List<UserBook> getUserBooks(Long userId, BookStatus status) {
         return userBookRepository.findAllByUserIdAndStatus(userId, status);
+    }
+
+    public void removeFromList(Long userId, String bookISBN) {
+        UserBook userBook = userBookRepository.findByUserIdAndBookISBN(userId, bookISBN)
+                .orElseThrow(() -> new IllegalArgumentException("Book relation not found."));
+
+        userBookRepository.delete(userBook);
     }
 
 }
