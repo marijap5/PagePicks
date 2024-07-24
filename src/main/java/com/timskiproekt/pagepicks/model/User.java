@@ -1,9 +1,10 @@
 package com.timskiproekt.pagepicks.model;
 
 import jakarta.persistence.*;
+<<<<<<< Updated upstream
 
 import java.util.Set;
-
+=======
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,11 +30,10 @@ public class User implements UserDetails {
 
 >>>>>>> Stashed changes
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @GeneratedValue
     private Integer id;
 
+<<<<<<< Updated upstream
     private String username;
     private String password;
     private String email;
@@ -67,63 +67,41 @@ public class User implements UserDetails {
 
     public Long getId() {
         return id;
-    }
+=======
     private String firstName;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
     private String lastName;
 
-    public String getUsername() {
-        return username;
-    }
     private String email;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
     private String username;
 
-    public String getPassword() {
-        return password;
-    }
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public void setPassword(String password) {
-        this.password = password;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    public String getEmail() {
-        return email;
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
     @Override
     public boolean isAccountNonLocked() {
         return true;
 >>>>>>> Stashed changes
     }
 
-    public Set<String> getRoles() {
-        return roles;
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
     @Override
     public boolean isEnabled() {
         return true;
