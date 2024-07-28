@@ -1,5 +1,6 @@
 package com.timskiproekt.pagepicks.auth;
 
+import com.timskiproekt.pagepicks.model.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +21,10 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+    @GetMapping("/principal")
+    public ResponseEntity<UserDTO> getPrincipal() {
+        UserDTO loggedInUser = service.getPrincipal();
+        return ResponseEntity.ok(loggedInUser);
     }
 }

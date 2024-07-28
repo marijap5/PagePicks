@@ -2,11 +2,13 @@ package com.timskiproekt.pagepicks.auth;
 
 import com.timskiproekt.pagepicks.model.Role;
 import com.timskiproekt.pagepicks.model.User;
+import com.timskiproekt.pagepicks.model.dto.UserDTO;
 import com.timskiproekt.pagepicks.repository.UserRepository;
 import com.timskiproekt.pagepicks.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +46,9 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+    public UserDTO getPrincipal() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return new UserDTO(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),user.getRole().name());
     }
 }
