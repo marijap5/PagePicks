@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -24,10 +25,13 @@ public class User implements UserDetails {
     @GeneratedValue
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(unique = true)
     private String email;
 
     private String firstName;
@@ -36,6 +40,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserBookStatus> bookStatuses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
