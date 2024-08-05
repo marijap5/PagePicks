@@ -15,7 +15,7 @@ public class UserBookStatusController {
     private UserBookStatusService userBookStatusService;
 
     @GetMapping("/user/{userId}")
-    public List<UserBookStatus> getUserBookStatusesByUserId(Long userId) {
+    public List<UserBookStatus> getUserBookStatusesByUserId(@PathVariable Long userId) {
         return userBookStatusService.getUserBookStatusesByUserId(userId);
     }
 
