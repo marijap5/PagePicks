@@ -29,6 +29,9 @@ public class UserBookStatusController {
         userBookStatusService.deleteUserBookStatus(id);
     }
 
-
+    @PatchMapping("/update-page/{id}")
+    public UserBookStatus updateCurrentPage(@PathVariable Long id, @RequestParam Integer newPage) {
+        return userBookStatusService.updateCurrentPage(id, newPage);
+    }
 
 }
