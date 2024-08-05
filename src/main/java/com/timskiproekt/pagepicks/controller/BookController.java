@@ -30,7 +30,7 @@ public class BookController {
         return bookService.saveBook(book);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{ISBN}")
     public void deleteBook(@PathVariable String ISBN) {
         bookService.deleteBook(ISBN);
     }
