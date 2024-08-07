@@ -34,6 +34,8 @@ public class Book {
 
     private String publisher;
 
+    private Integer pageCount;
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserBookStatus> userStatuses;
 }

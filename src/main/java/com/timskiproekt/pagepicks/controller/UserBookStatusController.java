@@ -11,11 +11,14 @@ import java.util.List;
 @RequestMapping("/api/user-book-status")
 public class UserBookStatusController {
 
-    @Autowired
-    private UserBookStatusService userBookStatusService;
+    private final UserBookStatusService userBookStatusService;
+
+    public UserBookStatusController(UserBookStatusService userBookStatusService) {
+        this.userBookStatusService = userBookStatusService;
+    }
 
     @GetMapping("/user/{userId}")
-    public List<UserBookStatus> getUserBookStatusesByUserId(@PathVariable Long userId) {
+    public List<UserBookStatus> getUserBookStatusesByUserId(@PathVariable Integer userId) {
         return userBookStatusService.getUserBookStatusesByUserId(userId);
     }
 
@@ -29,9 +32,24 @@ public class UserBookStatusController {
         userBookStatusService.deleteUserBookStatus(id);
     }
 
-    @PatchMapping("/update-page/{id}")
-    public UserBookStatus updateCurrentPage(@PathVariable Long id, @RequestParam Integer newPage) {
+    @PatchMapping("/updatePage/{id}")
+    public UserBookStatus updateCurrentPage(@PathVariable Long id, @RequestBody Integer newPage) {
         return userBookStatusService.updateCurrentPage(id, newPage);
+    }
+
+    @PatchMapping("/updateRating/{id}")
+    public UserBookStatus updateRating(@PathVariable Long id, @RequestBody Integer rating) {
+        return userBookStatusService.updateRating(id, rating);
+    }
+
+    @PatchMapping("/updateReview/{id}")
+    public UserBookStatus updateReview(@PathVariable Long id, @RequestBody String review) {
+        return userBookStatusService.updateReview(id, review);
+    }
+
+    @PatchMapping("/updateFavorite/{id}")
+    public UserBookStatus updateFavorite(@PathVariable Long id, @RequestBody boolean favorite) {
+        return userBookStatusService.updateFavorite(id, favorite);
     }
 
 }
