@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user-book-status")
+@CrossOrigin(origins = "*")
 public class UserBookStatusController {
 
     private final UserBookStatusService userBookStatusService;
