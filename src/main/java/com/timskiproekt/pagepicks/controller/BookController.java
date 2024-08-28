@@ -1,6 +1,6 @@
 package com.timskiproekt.pagepicks.controller;
 
-import com.timskiproekt.pagepicks.model.Book;
+import com.timskiproekt.pagepicks.domain.model.dto.BookDTO;
 import com.timskiproekt.pagepicks.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,24 +10,24 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
-@CrossOrigin(origins = "*")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
     @GetMapping
-    public List<Book> getAllBooks() {
+    public List<BookDTO> getAllBooks() {
         return bookService.getAllBooks();
     }
 
     @GetMapping("/isbn")
-    public Optional<Book> getBookByISBN(@PathVariable String ISBN) {
+    public Optional<BookDTO> getBookByISBN(@PathVariable String ISBN) {
         return bookService.getBookByISBN(ISBN);
     }
 
     @PostMapping("/save")
-    public Book saveBook(@RequestBody Book book) {
+    public BookDTO saveBook(@RequestBody BookDTO book) {
         return bookService.saveBook(book);
     }
 
@@ -36,4 +36,11 @@ public class BookController {
         bookService.deleteBook(ISBN);
     }
 
+    @GetMapping(value = "/search", produces = "application/json")
+    public List<BookDTO> searchBooks(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String author) {
+        return bookService.searchBooks(title, genre, author);
+    }
 }

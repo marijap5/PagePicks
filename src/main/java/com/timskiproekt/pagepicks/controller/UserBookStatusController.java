@@ -1,8 +1,7 @@
 package com.timskiproekt.pagepicks.controller;
 
-import com.timskiproekt.pagepicks.model.UserBookStatus;
+import com.timskiproekt.pagepicks.domain.model.UserBookStatus;
 import com.timskiproekt.pagepicks.service.UserBookStatusService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class UserBookStatusController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<UserBookStatus> getUserBookStatusesByUserId(@PathVariable Integer userId) {
+    public List<UserBookStatus> getUserBookStatusesByUserId(@PathVariable Long userId) {
         return userBookStatusService.getUserBookStatusesByUserId(userId);
     }
 

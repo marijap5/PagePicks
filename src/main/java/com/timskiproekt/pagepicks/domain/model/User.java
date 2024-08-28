@@ -1,4 +1,4 @@
-package com.timskiproekt.pagepicks.model;
+package com.timskiproekt.pagepicks.domain.model;
 
 import jakarta.persistence.*;
 
@@ -22,8 +22,8 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String username;

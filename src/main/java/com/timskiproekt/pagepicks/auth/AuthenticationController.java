@@ -1,6 +1,6 @@
 package com.timskiproekt.pagepicks.auth;
 
-import com.timskiproekt.pagepicks.model.dto.UserDTO;
+import com.timskiproekt.pagepicks.domain.model.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,7 @@
 package com.timskiproekt.pagepicks.service;
 
-import com.timskiproekt.pagepicks.model.BookStatus;
-import com.timskiproekt.pagepicks.model.Role;
-import com.timskiproekt.pagepicks.model.UserBookStatus;
+import com.timskiproekt.pagepicks.domain.model.BookStatus;
+import com.timskiproekt.pagepicks.domain.model.UserBookStatus;
 import com.timskiproekt.pagepicks.repository.UserBookStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class UserBookStatusService {
         this.userBookStatusRepository = userBookStatusRepository;
     }
 
-    public List<UserBookStatus> getUserBookStatusesByUserId(Integer userId) {
+    public List<UserBookStatus> getUserBookStatusesByUserId(Long userId) {
         return userBookStatusRepository.findByUserId(userId);
     }
 

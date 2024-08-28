@@ -1,4 +1,4 @@
-package com.timskiproekt.pagepicks.model;
+package com.timskiproekt.pagepicks.domain.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

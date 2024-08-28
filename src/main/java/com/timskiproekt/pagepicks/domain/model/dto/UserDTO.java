@@ -1,4 +1,4 @@
-package com.timskiproekt.pagepicks.model.dto;
+package com.timskiproekt.pagepicks.domain.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

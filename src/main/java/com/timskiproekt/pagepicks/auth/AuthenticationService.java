@@ -1,8 +1,8 @@
 package com.timskiproekt.pagepicks.auth;
 
-import com.timskiproekt.pagepicks.model.Role;
-import com.timskiproekt.pagepicks.model.User;
-import com.timskiproekt.pagepicks.model.dto.UserDTO;
+import com.timskiproekt.pagepicks.domain.model.Role;
+import com.timskiproekt.pagepicks.domain.model.User;
+import com.timskiproekt.pagepicks.domain.model.dto.UserDTO;
 import com.timskiproekt.pagepicks.repository.UserRepository;
 import com.timskiproekt.pagepicks.security.JwtService;
 import lombok.RequiredArgsConstructor;
