@@ -13,17 +13,20 @@ import java.util.Optional;
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 public class BookController {
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @GetMapping
     public List<BookDTO> getAllBooks() {
         return bookService.getAllBooks();
     }
 
-    @GetMapping("/isbn")
-    public Optional<BookDTO> getBookByISBN(@PathVariable String ISBN) {
-        return bookService.getBookByISBN(ISBN);
+    @GetMapping("/{isbn}")
+    public Optional<BookDTO> getBookByISBN(@PathVariable String isbn) {
+        return bookService.getBookByISBN(isbn);
     }
 
     @PostMapping("/save")
@@ -31,9 +34,9 @@ public class BookController {
         return bookService.saveBook(book);
     }
 
-    @DeleteMapping("/delete/{ISBN}")
-    public void deleteBook(@PathVariable String ISBN) {
-        bookService.deleteBook(ISBN);
+    @DeleteMapping("/delete/{isbn}")
+    public void deleteBook(@PathVariable String isbn) {
+        bookService.deleteBook(isbn);
     }
 
     @GetMapping(value = "/search", produces = "application/json")
