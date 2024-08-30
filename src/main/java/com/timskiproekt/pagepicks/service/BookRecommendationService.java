@@ -1,8 +1,8 @@
 package com.timskiproekt.pagepicks.service;
 
-import com.timskiproekt.pagepicks.model.Book;
-import com.timskiproekt.pagepicks.model.BookStatus;
-import com.timskiproekt.pagepicks.model.UserBookStatus;
+import com.timskiproekt.pagepicks.domain.model.Book;
+import com.timskiproekt.pagepicks.domain.model.BookStatus;
+import com.timskiproekt.pagepicks.domain.model.UserBookStatus;
 import com.timskiproekt.pagepicks.repository.BookRepository;
 import com.timskiproekt.pagepicks.repository.UserBookStatusRepository;
 import org.springframework.stereotype.Service;

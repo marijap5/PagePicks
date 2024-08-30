@@ -39,6 +39,7 @@ public class BookService {
 
     public BookDTO saveBook(BookDTO bookDTO) {
         Book book = bookMapper.bookDTOToBook(bookDTO);
+        book.setImageUrl("https://covers.openlibrary.org/b/isbn/"+ book.getIsbn() + "-L.jpg");
         Book savedBook = bookRepository.save(book);
         return bookMapper.bookToBookDTO(savedBook);
     }

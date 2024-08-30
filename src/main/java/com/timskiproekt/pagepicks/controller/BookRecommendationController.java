@@ -1,7 +1,7 @@
 package com.timskiproekt.pagepicks.controller;
 
-import com.timskiproekt.pagepicks.model.Book;
-import com.timskiproekt.pagepicks.model.User;
+import com.timskiproekt.pagepicks.domain.model.Book;
+import com.timskiproekt.pagepicks.domain.model.User;
 import com.timskiproekt.pagepicks.service.BookRecommendationService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
