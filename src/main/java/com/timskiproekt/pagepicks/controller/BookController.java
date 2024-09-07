@@ -3,6 +3,7 @@ package com.timskiproekt.pagepicks.controller;
 import com.timskiproekt.pagepicks.domain.model.dto.BookDTO;
 import com.timskiproekt.pagepicks.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,16 @@ public class BookController {
     @PostMapping("/save")
     public BookDTO saveBook(@RequestBody BookDTO book) {
         return bookService.saveBook(book);
+    }
+
+    @PutMapping("/{isbn}/edit")
+    public ResponseEntity<BookDTO> editBook(@PathVariable String isbn, @RequestBody BookDTO bookDTO) {
+        try {
+            BookDTO updatedBook = bookService.editBook(isbn, bookDTO);
+            return ResponseEntity.ok(updatedBook);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/delete/{isbn}")

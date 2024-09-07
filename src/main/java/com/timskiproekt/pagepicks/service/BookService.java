@@ -44,6 +44,25 @@ public class BookService {
         return bookMapper.bookToBookDTO(savedBook);
     }
 
+    public BookDTO editBook(String ISBN, BookDTO updatedBookDTO) {
+        Optional<Book> existingBookOptional = bookRepository.findById(ISBN);
+
+        if (existingBookOptional.isPresent()) {
+            Book existingBook = existingBookOptional.get();
+
+            existingBook.setTitle(updatedBookDTO.getTitle());
+            existingBook.setAuthor(updatedBookDTO.getAuthor());
+            existingBook.setGenre(updatedBookDTO.getGenre());
+            existingBook.setDescription(updatedBookDTO.getDescription());
+            existingBook.setPageCount(updatedBookDTO.getPageCount());
+
+            Book savedBook = bookRepository.save(existingBook);
+            return bookMapper.bookToBookDTO(savedBook);
+        } else {
+            throw new IllegalArgumentException("Book with ISBN " + ISBN + " not found");
+        }
+    }
+
     public void deleteBook(String ISBN) {
         bookRepository.deleteById(ISBN);
     }
