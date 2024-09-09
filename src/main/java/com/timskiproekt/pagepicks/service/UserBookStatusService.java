@@ -2,6 +2,7 @@ package com.timskiproekt.pagepicks.service;
 
 import com.timskiproekt.pagepicks.domain.model.BookStatus;
 import com.timskiproekt.pagepicks.domain.model.UserBookStatus;
+import com.timskiproekt.pagepicks.domain.model.dto.RatingReviewDTO;
 import com.timskiproekt.pagepicks.repository.UserBookStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,11 +98,13 @@ public class UserBookStatusService {
         return userBookStatusRepository.save(userBookStatus);
     }
 
-    public List<String> getAllReviewsForBook(String isbn) {
+    public List<RatingReviewDTO> getAllReviewsForBook(String isbn) {
         List<UserBookStatus> statuses = userBookStatusRepository.findByBookIsbn(isbn);
+
         return statuses.stream()
-                .map(UserBookStatus::getReview)
-                .filter(Objects::nonNull)
+                .filter(status -> status.getReview() != null || status.getRating() != null)
+                .map(status -> new RatingReviewDTO(status.getReview(), status.getRating()))
                 .collect(Collectors.toList());
     }
+
 }

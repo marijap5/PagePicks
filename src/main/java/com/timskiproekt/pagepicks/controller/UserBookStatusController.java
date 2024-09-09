@@ -1,6 +1,7 @@
 package com.timskiproekt.pagepicks.controller;
 
 import com.timskiproekt.pagepicks.domain.model.UserBookStatus;
+import com.timskiproekt.pagepicks.domain.model.dto.RatingReviewDTO;
 import com.timskiproekt.pagepicks.service.UserBookStatusService;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,7 @@ public class UserBookStatusController {
     }
 
     @GetMapping("/book/{isbn}/reviews")
-    public List<String> getAllReviewsForBook(@PathVariable String isbn) {
+    public List<RatingReviewDTO> getAllReviewsForBook(@PathVariable String isbn) {
         return userBookStatusService.getAllReviewsForBook(isbn);
     }
 
