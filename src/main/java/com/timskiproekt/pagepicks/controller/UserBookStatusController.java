@@ -52,4 +52,9 @@ public class UserBookStatusController {
         return userBookStatusService.updateFavorite(id, favorite);
     }
 
+    @GetMapping("/book/{isbn}/reviews")
+    public List<String> getAllReviewsForBook(@PathVariable String isbn) {
+        return userBookStatusService.getAllReviewsForBook(isbn);
+    }
+
 }

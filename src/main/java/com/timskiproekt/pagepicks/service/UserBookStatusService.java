@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserBookStatusService {
@@ -26,28 +28,27 @@ public class UserBookStatusService {
 
     public UserBookStatus saveUserBookStatus(UserBookStatus userBookStatus) {
         Optional<UserBookStatus> existingStatus = userBookStatusRepository.findByUserIdAndBookIsbn(userBookStatus.getUser().getId(), userBookStatus.getBook().getIsbn());
-        if (existingStatus.isPresent()){
+        if (existingStatus.isPresent()) {
             UserBookStatus existingUserBookStatus = existingStatus.get();
-            if(existingStatus.get().getStatus() == BookStatus.READING && userBookStatus.getStatus() == BookStatus.READING){
+            if (existingStatus.get().getStatus() == BookStatus.READING && userBookStatus.getStatus() == BookStatus.READING) {
                 throw new IllegalArgumentException("User is already reading this book");
             }
-            if(existingStatus.get().getStatus() == BookStatus.READ && userBookStatus.getStatus() == BookStatus.READ){
+            if (existingStatus.get().getStatus() == BookStatus.READ && userBookStatus.getStatus() == BookStatus.READ) {
                 throw new IllegalArgumentException("User has already read this book");
             }
-            if(existingStatus.get().getStatus() == BookStatus.TO_READ && userBookStatus.getStatus() == BookStatus.TO_READ){
+            if (existingStatus.get().getStatus() == BookStatus.TO_READ && userBookStatus.getStatus() == BookStatus.TO_READ) {
                 throw new IllegalArgumentException("User already has this book on their to-read list");
             }
-            if(existingStatus.get().getStatus() != BookStatus.READING && userBookStatus.getStatus() == BookStatus.READING){
+            if (existingStatus.get().getStatus() != BookStatus.READING && userBookStatus.getStatus() == BookStatus.READING) {
                 existingUserBookStatus.setCurrentPage(0);
             }
             existingUserBookStatus.setStatus(userBookStatus.getStatus());
             return userBookStatusRepository.save(existingUserBookStatus);
-        }
-        else {
-            if(userBookStatus.getStatus() == BookStatus.READING){
+        } else {
+            if (userBookStatus.getStatus() == BookStatus.READING) {
                 userBookStatus.setCurrentPage(0);
             }
-            if(userBookStatus.getStatus() == BookStatus.READ){
+            if (userBookStatus.getStatus() == BookStatus.READ) {
                 userBookStatus.setCurrentPage(userBookStatus.getBook().getPageCount());
             }
             return userBookStatusRepository.save(userBookStatus);
@@ -94,5 +95,13 @@ public class UserBookStatusService {
 
         userBookStatus.setFavorite(favorite);
         return userBookStatusRepository.save(userBookStatus);
+    }
+
+    public List<String> getAllReviewsForBook(String isbn) {
+        List<UserBookStatus> statuses = userBookStatusRepository.findByBookIsbn(isbn);
+        return statuses.stream()
+                .map(UserBookStatus::getReview)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 }

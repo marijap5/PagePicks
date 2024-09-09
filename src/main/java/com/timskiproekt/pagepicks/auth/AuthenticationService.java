@@ -49,6 +49,6 @@ public class AuthenticationService {
     }
     public UserDTO getPrincipal() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new UserDTO(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),user.getRole().name());
+        return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),user.getRole().name());
     }
 }

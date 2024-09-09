@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface UserBookStatusRepository extends JpaRepository<UserBookStatus, Long> {
     List<UserBookStatus> findByUserId(Long userId);
     Optional<UserBookStatus> findByUserIdAndBookIsbn(Long userId, String bookISBN);
+    List<UserBookStatus> findByBookIsbn(String isbn);
 }
