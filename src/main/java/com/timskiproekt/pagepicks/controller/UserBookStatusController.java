@@ -1,15 +1,17 @@
 package com.timskiproekt.pagepicks.controller;
 
+import com.timskiproekt.pagepicks.domain.model.User;
 import com.timskiproekt.pagepicks.domain.model.UserBookStatus;
 import com.timskiproekt.pagepicks.domain.model.dto.RatingReviewDTO;
 import com.timskiproekt.pagepicks.service.UserBookStatusService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/user-book-status")
-@CrossOrigin(origins = "*")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 public class UserBookStatusController {
 
     private final UserBookStatusService userBookStatusService;
@@ -33,7 +35,7 @@ public class UserBookStatusController {
         userBookStatusService.deleteUserBookStatus(id);
     }
 
-    @PatchMapping("/updatePage/{id}")
+    @PatchMapping(value = "/updatePage/{id}", produces = "application/json")
     public UserBookStatus updateCurrentPage(@PathVariable Long id, @RequestBody Integer newPage) {
         return userBookStatusService.updateCurrentPage(id, newPage);
     }
@@ -58,4 +60,16 @@ public class UserBookStatusController {
         return userBookStatusService.getAllReviewsForBook(isbn);
     }
 
+    @PatchMapping("/markAsFinished/{id}")
+    public UserBookStatus markAsFinished(
+            @PathVariable Long id,
+            @RequestBody(required = false) RatingReviewDTO ratingReviewDTO
+    ) {
+        return userBookStatusService.markAsFinished(id, ratingReviewDTO);
+    }
+
+    @GetMapping("/continue-reading")
+    public UserBookStatus getContinueReadingBook(@AuthenticationPrincipal User user) {
+        return userBookStatusService.getContinueReadingBook(user.getId());
+    }
 }

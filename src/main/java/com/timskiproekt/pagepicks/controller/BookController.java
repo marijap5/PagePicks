@@ -2,7 +2,6 @@ package com.timskiproekt.pagepicks.controller;
 
 import com.timskiproekt.pagepicks.domain.model.dto.BookDTO;
 import com.timskiproekt.pagepicks.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +47,16 @@ public class BookController {
     @DeleteMapping("/delete/{isbn}")
     public void deleteBook(@PathVariable String isbn) {
         bookService.deleteBook(isbn);
+    }
+
+    @GetMapping("/categories")
+    public List<String> getAllCategories() {
+        return bookService.getAllCategories();
+    }
+
+    @GetMapping("/authors")
+    public List<String> getAllAuthors() {
+        return bookService.getAllAuthors();
     }
 
     @GetMapping(value = "/search", produces = "application/json")

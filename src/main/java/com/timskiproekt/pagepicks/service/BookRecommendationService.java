@@ -20,7 +20,7 @@ public class BookRecommendationService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getRecommendations(Long userId){
+    public List<Book> getRecommendations(Long userId) {
         List<UserBookStatus> userBookStatuses = userBookStatusRepository.findByUserId(userId);
 
         Set<String> favoriteGenres = userBookStatuses.stream()
@@ -48,5 +48,13 @@ public class BookRecommendationService {
         }
 
         return new ArrayList<>(recommendedBooks);
+    }
+
+    public List<Book> getMostPopularBooks() {
+        return userBookStatusRepository.findTop10MostPopularBooks();
+    }
+
+    public List<Book> getBestRatedBooks() {
+        return userBookStatusRepository.findTop10BestRatedBooks();
     }
 }

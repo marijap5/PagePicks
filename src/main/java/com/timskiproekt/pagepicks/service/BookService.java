@@ -5,7 +5,6 @@ import com.timskiproekt.pagepicks.domain.model.dto.BookDTO;
 import com.timskiproekt.pagepicks.domain.model.mapper.BookMapper;
 import com.timskiproekt.pagepicks.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.timskiproekt.pagepicks.domain.specification.BookSpecification;
@@ -39,7 +38,7 @@ public class BookService {
 
     public BookDTO saveBook(BookDTO bookDTO) {
         Book book = bookMapper.bookDTOToBook(bookDTO);
-        book.setImageUrl("https://covers.openlibrary.org/b/isbn/"+ book.getIsbn() + "-L.jpg");
+        book.setImageUrl("https://covers.openlibrary.org/b/isbn/" + book.getIsbn() + "-L.jpg");
         Book savedBook = bookRepository.save(book);
         return bookMapper.bookToBookDTO(savedBook);
     }
@@ -73,9 +72,17 @@ public class BookService {
                 .and(genre != null ? BookSpecification.genreEquals(genre) : null)
                 .and(author != null ? BookSpecification.authorEquals(author) : null);
 
-        return bookRepository.findAll((Sort) spec)
+        return bookRepository.findAll(spec)
                 .stream()
                 .map(bookMapper::bookToBookDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<String> getAllCategories() {
+        return bookRepository.findDistinctCategories();
+    }
+
+    public List<String> getAllAuthors() {
+        return bookRepository.findDistinctAuthors();
     }
 }

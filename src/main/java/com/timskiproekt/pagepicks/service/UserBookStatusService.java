@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,6 +71,9 @@ public class UserBookStatusService {
         }
 
         userBookStatus.setCurrentPage(newPage);
+        if (userBookStatus.getCurrentPage().equals(userBookStatus.getBook().getPageCount())) {
+            userBookStatus.setStatus(BookStatus.READ);
+        }
         return userBookStatusRepository.save(userBookStatus);
     }
 
@@ -105,6 +108,38 @@ public class UserBookStatusService {
                 .filter(status -> status.getReview() != null || status.getRating() != null)
                 .map(status -> new RatingReviewDTO(status.getReview(), status.getRating()))
                 .collect(Collectors.toList());
+    }
+
+    public UserBookStatus markAsFinished(Long id, RatingReviewDTO ratingReviewDTO) {
+        UserBookStatus userBookStatus = userBookStatusRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("UserBookStatus with id " + id + " not found"));
+
+        userBookStatus.setStatus(BookStatus.READ);
+        userBookStatus.setCurrentPage(userBookStatus.getBook().getPageCount());
+
+        if (ratingReviewDTO != null) {
+            if (ratingReviewDTO.getRating() != null) {
+                userBookStatus.setRating(ratingReviewDTO.getRating());
+            }
+            if (ratingReviewDTO.getReview() != null) {
+                userBookStatus.setReview(ratingReviewDTO.getReview());
+            }
+        }
+
+        return userBookStatusRepository.save(userBookStatus);
+    }
+
+    public UserBookStatus getContinueReadingBook(Long userId) {
+        List<UserBookStatus> readingBooks = userBookStatusRepository.findByUserIdAndStatus(userId, BookStatus.READING);
+
+        if (readingBooks.isEmpty()) {
+            throw new NoSuchElementException("No books currently being read by user with ID: " + userId);
+        }
+
+        Random random = new Random();
+        UserBookStatus randomBookStatus = readingBooks.get(random.nextInt(readingBooks.size()));
+
+        return randomBookStatus;
     }
 
 }
