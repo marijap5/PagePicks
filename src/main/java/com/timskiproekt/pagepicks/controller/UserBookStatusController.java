@@ -4,6 +4,7 @@ import com.timskiproekt.pagepicks.domain.model.User;
 import com.timskiproekt.pagepicks.domain.model.UserBookStatus;
 import com.timskiproekt.pagepicks.domain.model.dto.RatingReviewDTO;
 import com.timskiproekt.pagepicks.service.UserBookStatusService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,4 +73,11 @@ public class UserBookStatusController {
     public UserBookStatus getContinueReadingBook(@AuthenticationPrincipal User user) {
         return userBookStatusService.getContinueReadingBook(user.getId());
     }
+
+    @GetMapping("/{isbn}/average-rating")
+    public ResponseEntity<Double> getAverageRating(@PathVariable String isbn) {
+        Double averageRating = userBookStatusService.getAverageRatingForBook(isbn);
+        return ResponseEntity.ok(averageRating);
+    }
+
 }

@@ -27,4 +27,7 @@ public interface UserBookStatusRepository extends JpaRepository<UserBookStatus, 
     List<Book> findTop10BestRatedBooks();
 
     List<UserBookStatus> findByUserIdAndStatus(Long userId, BookStatus status);
+
+    @Query("SELECT AVG(ubs.rating) FROM UserBookStatus ubs WHERE ubs.book.isbn = :isbn AND ubs.rating IS NOT NULL")
+    Double findAverageRatingByBookIsbn(String isbn);
 }

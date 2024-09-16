@@ -106,7 +106,11 @@ public class UserBookStatusService {
 
         return statuses.stream()
                 .filter(status -> status.getReview() != null || status.getRating() != null)
-                .map(status -> new RatingReviewDTO(status.getReview(), status.getRating()))
+                .map(status -> new RatingReviewDTO(
+                        status.getReview(),
+                        status.getRating(),
+                        status.getUser().getUsername()
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -140,6 +144,10 @@ public class UserBookStatusService {
         UserBookStatus randomBookStatus = readingBooks.get(random.nextInt(readingBooks.size()));
 
         return randomBookStatus;
+    }
+
+    public Double getAverageRatingForBook(String isbn) {
+        return userBookStatusRepository.findAverageRatingByBookIsbn(isbn);
     }
 
 }
