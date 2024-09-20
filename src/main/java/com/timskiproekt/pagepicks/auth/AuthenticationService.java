@@ -48,7 +48,21 @@ public class AuthenticationService {
                 .build();
     }
     public UserDTO getPrincipal() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),user.getRole().name());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof User) {
+            User user = (User) principal;
+            return new UserDTO(
+                    user.getId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getUsername(),
+                    user.getEmail(),
+                    user.getRole().name()
+            );
+        } else {
+            throw new IllegalStateException("User not authenticated");
+        }
     }
+
 }
