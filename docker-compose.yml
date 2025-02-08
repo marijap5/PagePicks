@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: pagepicks-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vselena1
+      POSTGRES_DB: page-picks
+    ports:
+      - "5432:5432"
+    networks:
+      - backend-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  backend:
+    image: pagepicks-backend
+    container_name: pagepicks-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/page-picks
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: vselena1
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-network
+
+  frontend:
+    image: pagepicks-frontend
+    container_name: pagepicks-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+
+volumes:
+  postgres-data:
